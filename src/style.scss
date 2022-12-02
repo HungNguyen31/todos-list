@@ -1,0 +1,57 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 20px o 20px;
+
+  .title {
+    padding: 20px;
+    font-size: 40px;
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 20px 20px 20px;
+
+  Button {
+    text-align: left;
+    margin-top: 5px;
+    width: 238px;
+  }
+}
+
+.todo {
+  Button {
+    // text-decoration: ${this.props.isCompleted} && line-through;
+  }
+  &:hover {
+    .check-icon {
+      display: none;
+      display: inline-block;
+    }
+  }
+  .check-icon {
+    display: none;
+
+    &:hover {
+      background-color: gray;
+      border-radius: 3px;
+    }
+  }
+  //   ${(p) => p.isCompleted && text-decoration: line-through;}
+}
+
+.line-through {
+  text-decoration: line-through;
+}
