@@ -1,9 +1,10 @@
 import React from "react";
 import TodosList from "./components/TodosList";
 import Textfield from "@atlaskit/textfield";
-import Button from "@atlaskit/button";
+// import Button from "@atlaskit/button";
 import { useCallback, useState, useEffect } from "react";
 import { v4 } from "uuid";
+import "bootstrap/dist/css/bootstrap.css";
 
 const TODOS_LIST_STORAGE_KEY = "TODOS_LIST";
 
@@ -40,11 +41,34 @@ function App() {
     [textInput, todosList]
   );
 
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter" && textInput) {
+        setTodosList([
+          { id: v4(), name: textInput, isCompleted: false },
+          ...todosList,
+        ]);
+
+        setTextInput("");
+      }
+    },
+    [textInput, todosList]
+  );
+
+  // const handleKeyDown = (event) => {
+  //   if (event.key === "Enter") {
+  //     alert("asdad");
+  //   }
+  // };
+
   useEffect(() => {
     const todoElement = document.querySelectorAll(".todo");
     for (const data of todoElement) {
       if (data.getAttribute("iscompleted") === "true") {
         data.classList.add("line-through");
+      }
+      if (data.getAttribute("iscompleted") === "false") {
+        data.classList.remove("line-through");
       }
     }
   });
@@ -52,31 +76,41 @@ function App() {
   const handleButtonTick = useCallback((id) => {
     setTodosList((prevState) =>
       prevState.map((todo) =>
-        todo.id === id ? { ...todo, isCompleted: true } : todo
+        todo.id === id ? { ...todo, isCompleted: !todo["isCompleted"] } : todo
       )
     );
   }, []);
 
+  const handleButtonCross = useCallback((id) => {
+    setTodosList((prevState) => prevState.filter((todo) => todo.id !== id));
+  }, []);
+
   return (
     <div className="wrapper">
-      <p className="title">Todos List</p>
+      <p className="title">To-Do List</p>
       <Textfield
+        className="add-todo"
         name="add-todo"
         placeholder="Thêm việc cần làm ..."
+        onKeyDown={handleKeyDown}
         elemAfterInput={
-          <Button
-            isDisabled={!textInput}
-            appearance="primary"
+          <button
+            className="btn btn-dark"
+            hidden={!textInput}
             style={{ margin: "2px 4px 2px" }}
             onClick={handleButtonAdd}
           >
             Thêm
-          </Button>
+          </button>
         }
         value={textInput}
         onChange={onTextInputChange}
       ></Textfield>
-      <TodosList todosList={todosList} handleButtonTick={handleButtonTick} />
+      <TodosList
+        todosList={todosList}
+        handleButtonTick={handleButtonTick}
+        handleButtonCross={handleButtonCross}
+      />
     </div>
   );
 }

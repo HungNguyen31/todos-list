@@ -1,39 +1,48 @@
 import React from "react";
 import Button from "@atlaskit/button";
 import CheckIcon from "@atlaskit/icon/glyph/check";
-import styled, { css } from "styled-components";
+import CrossIcon from "@atlaskit/icon/glyph/cross";
+// import CheckIcon from "@atlaskit/icon/glyph/audio";
+// import styled, { css } from "styled-components";
 
-const ButtonStyled = styled(Button)`
-  &,
-  &:hover {
-    ${(p) =>
-      p.iscompleted === "true" &&
-      css`
-        text-decoration: line-through;
-      `}
-  }
-`;
+// const ButtonStyled = styled(Button)`
+//   &,
+//   &:hover {
+//     ${(p) =>
+//       p.iscompleted === "true" &&
+//       css`
+//         text-decoration: line-through;
+//       `}
+//   }
+// `;
 
-const Todo = ({ todo, handleButtonTick }) => {
+const Todo = ({ todo, handleButtonTick, handleButtonCross }) => {
   return (
     <div className="todo" iscompleted={todo.isCompleted.toString()}>
-      <ButtonStyled
+      <Button
         className="btn-todo"
         iscompleted={todo.isCompleted.toString()}
         shouldFitContainer
         iconAfter={
-          !todo.isCompleted && (
+          // !todo.isCompleted && (
+          <span className="icon-area">
             <span
               className="check-icon"
               onClick={() => handleButtonTick(todo.id)}
             >
               <CheckIcon primaryColor="Green" />
             </span>
-          )
+            <span
+              className="cross-icon"
+              onClick={() => handleButtonCross(todo.id)}
+            >
+              <CrossIcon primaryColor="Red" />
+            </span>
+          </span>
         }
       >
         {todo.name}
-      </ButtonStyled>
+      </Button>
     </div>
   );
 };

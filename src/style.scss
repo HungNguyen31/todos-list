@@ -4,6 +4,10 @@
   font-size: 100%;
 }
 
+body {
+  background-image: url("../public/background-img.webp");
+}
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -14,44 +18,72 @@
   .title {
     padding: 20px;
     font-size: 40px;
+    font-weight: 1000;
+    color: black;
+    text-transform: uppercase;
   }
-}
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 0 20px 20px 20px;
+  .add-todo {
+    width: 50%;
+    border-radius: 15px;
 
-  Button {
-    text-align: left;
-    margin-top: 5px;
-    width: 238px;
-  }
-}
-
-.todo {
-  Button {
-    // text-decoration: ${this.props.isCompleted} && line-through;
-  }
-  &:hover {
-    .check-icon {
-      display: none;
-      display: inline-block;
+    button {
+      width: 65px;
+      height: 32px;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+      font-size: 12px;
     }
   }
-  .check-icon {
-    display: none;
 
+  .container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 20px 20px 20px;
+
+    .todo {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      Button {
+        text-align: left;
+        margin-top: 5px;
+        width: 55%;
+        border-radius: 15px;
+        background-color: #7f8ea4;
+      }
+    }
+  }
+
+  .todo {
     &:hover {
-      background-color: gray;
-      border-radius: 3px;
+      .icon-area {
+        display: none;
+        display: inline-block;
+      }
+    }
+    .icon-area {
+      display: none;
+
+      &:hover {
+        border-radius: 3px;
+      }
+      span {
+        &:hover {
+          background-color: gainsboro;
+          border-radius: 3px;
+        }
+      }
     }
   }
-  //   ${(p) => p.isCompleted && text-decoration: line-through;}
-}
 
-.line-through {
-  text-decoration: line-through;
+  .line-through {
+    text-decoration: line-through;
+    text-decoration-color: deeppink;
+  }
 }
