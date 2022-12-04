@@ -6,11 +6,11 @@ import { useCallback, useState, useEffect } from "react";
 import { v4 } from "uuid";
 import "bootstrap/dist/css/bootstrap.css";
 
-const TODOS_LIST_STORAGE_KEY = "TODOS_LIST";
+const TODO_LIST_STORAGE_KEY = "TODO_LIST";
 
 function App() {
   const [todoList, settodoList] = useState(
-    JSON.parse(localStorage.getItem(TODOS_LIST_STORAGE_KEY)) ?? []
+    JSON.parse(localStorage.getItem(TODO_LIST_STORAGE_KEY)) ?? []
   );
   const [textInput, setTextInput] = useState("");
 
@@ -22,7 +22,7 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    localStorage.setItem(TODOS_LIST_STORAGE_KEY, JSON.stringify(todoList));
+    localStorage.setItem(TODO_LIST_STORAGE_KEY, JSON.stringify(todoList));
   }, [todoList]);
 
   const onTextInputChange = useCallback((e) => {

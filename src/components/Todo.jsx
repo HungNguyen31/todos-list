@@ -21,6 +21,7 @@ const Todo = ({ todo, handleButtonTick, handleButtonCross }) => {
     <div className="todo" iscompleted={todo.isCompleted.toString()}>
       <Button
         className="btn-todo"
+        title={todo.name}
         iscompleted={todo.isCompleted.toString()}
         shouldFitContainer
         iconAfter={
