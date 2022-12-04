@@ -1,10 +1,10 @@
 import React from "react";
 import Todo from "./Todo";
 
-const TodosList = ({ todosList, handleButtonTick, handleButtonCross }) => {
+const todoList = ({ todoList, handleButtonTick, handleButtonCross }) => {
   return (
     <div className="container">
-      {todosList.map((todo) => (
+      {todoList.map((todo) => (
         <Todo
           className="todo"
           key={todo.id}
@@ -17,4 +17,4 @@ const TodosList = ({ todosList, handleButtonTick, handleButtonCross }) => {
   );
 };
 
-export default TodosList;
+export default todoList;

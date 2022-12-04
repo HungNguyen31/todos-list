@@ -1,5 +1,5 @@
 import React from "react";
-import TodosList from "./components/TodosList";
+import TodoList from "./components/TodoList";
 import Textfield from "@atlaskit/textfield";
 // import Button from "@atlaskit/button";
 import { useCallback, useState, useEffect } from "react";
@@ -9,7 +9,7 @@ import "bootstrap/dist/css/bootstrap.css";
 const TODOS_LIST_STORAGE_KEY = "TODOS_LIST";
 
 function App() {
-  const [todosList, setTodosList] = useState(
+  const [todoList, settodoList] = useState(
     JSON.parse(localStorage.getItem(TODOS_LIST_STORAGE_KEY)) ?? []
   );
   const [textInput, setTextInput] = useState("");
@@ -17,13 +17,13 @@ function App() {
   // useEffect(() => {
   //   const storageTodoList = localStorage.getItem(TODOS_LIST_STORAGE_KEY);
   //   if (storageTodoList) {
-  //     setTodosList(JSON.parse(storageTodoList));
+  //     settodoList(JSON.parse(storageTodoList));
   //   }
   // }, []);
 
   useEffect(() => {
-    localStorage.setItem(TODOS_LIST_STORAGE_KEY, JSON.stringify(todosList));
-  }, [todosList]);
+    localStorage.setItem(TODOS_LIST_STORAGE_KEY, JSON.stringify(todoList));
+  }, [todoList]);
 
   const onTextInputChange = useCallback((e) => {
     setTextInput(e.target.value);
@@ -31,28 +31,28 @@ function App() {
 
   const handleButtonAdd = useCallback(
     (e) => {
-      setTodosList([
+      settodoList([
         { id: v4(), name: textInput, isCompleted: false },
-        ...todosList,
+        ...todoList,
       ]);
 
       setTextInput("");
     },
-    [textInput, todosList]
+    [textInput, todoList]
   );
 
   const handleKeyDown = useCallback(
     (e) => {
       if (e.key === "Enter" && textInput) {
-        setTodosList([
+        settodoList([
           { id: v4(), name: textInput, isCompleted: false },
-          ...todosList,
+          ...todoList,
         ]);
 
         setTextInput("");
       }
     },
-    [textInput, todosList]
+    [textInput, todoList]
   );
 
   // const handleKeyDown = (event) => {
@@ -74,7 +74,7 @@ function App() {
   });
 
   const handleButtonTick = useCallback((id) => {
-    setTodosList((prevState) =>
+    settodoList((prevState) =>
       prevState.map((todo) =>
         todo.id === id ? { ...todo, isCompleted: !todo["isCompleted"] } : todo
       )
@@ -82,13 +82,16 @@ function App() {
   }, []);
 
   const handleButtonCross = useCallback((id) => {
-    setTodosList((prevState) => prevState.filter((todo) => todo.id !== id));
+    settodoList((prevState) => prevState.filter((todo) => todo.id !== id));
   }, []);
 
   return (
     <div className="wrapper">
-      <p className="title">To-Do List</p>
+      <label htmlFor="add-todo" className="title">
+        To-Do List
+      </label>
       <Textfield
+        id="add-todo"
         className="add-todo"
         name="add-todo"
         placeholder="Thêm việc cần làm ..."
@@ -106,8 +109,8 @@ function App() {
         value={textInput}
         onChange={onTextInputChange}
       ></Textfield>
-      <TodosList
-        todosList={todosList}
+      <TodoList
+        todoList={todoList}
         handleButtonTick={handleButtonTick}
         handleButtonCross={handleButtonCross}
       />
