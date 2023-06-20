@@ -1,9 +1,14 @@
 import React from "react";
 import Todo from "./Todo";
 
-const todoList = ({ todoList, handleButtonTick, handleButtonCross }) => {
+const todoList = ({
+  todoList,
+  handleButtonTick,
+  handleButtonCross,
+  todoElements,
+}) => {
   return (
-    <div className="container">
+    <div ref={todoElements} className="container">
       {todoList.map((todo) => (
         <Todo
           className="todo"

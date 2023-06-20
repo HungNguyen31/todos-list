@@ -2,7 +2,7 @@ import React from "react";
 import TodoList from "./components/TodoList";
 import Textfield from "@atlaskit/textfield";
 // import Button from "@atlaskit/button";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { v4 } from "uuid";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -13,6 +13,9 @@ function App() {
     JSON.parse(localStorage.getItem(TODO_LIST_STORAGE_KEY)) ?? []
   );
   const [textInput, setTextInput] = useState("");
+
+  // const todoElements = useRef();
+  // console.log(todoElements.current);
 
   // useEffect(() => {
   //   const storageTodoList = localStorage.getItem(TODOS_LIST_STORAGE_KEY);
@@ -25,35 +28,31 @@ function App() {
     localStorage.setItem(TODO_LIST_STORAGE_KEY, JSON.stringify(todoList));
   }, [todoList]);
 
-  const onTextInputChange = useCallback((e) => {
-    setTextInput(e.target.value);
-  }, []);
+  // console.log("re-render component");
 
-  const handleButtonAdd = useCallback(
-    (e) => {
+  const onTextInputChange = (e) => {
+    setTextInput(e.target.value);
+  };
+
+  const handleButtonAdd = (e) => {
+    settodoList([
+      { id: v4(), name: textInput, isCompleted: false },
+      ...todoList,
+    ]);
+
+    setTextInput("");
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && textInput) {
       settodoList([
         { id: v4(), name: textInput, isCompleted: false },
         ...todoList,
       ]);
 
       setTextInput("");
-    },
-    [textInput, todoList]
-  );
-
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === "Enter" && textInput) {
-        settodoList([
-          { id: v4(), name: textInput, isCompleted: false },
-          ...todoList,
-        ]);
-
-        setTextInput("");
-      }
-    },
-    [textInput, todoList]
-  );
+    }
+  };
 
   // const handleKeyDown = (event) => {
   //   if (event.key === "Enter") {
@@ -62,16 +61,22 @@ function App() {
   // };
 
   useEffect(() => {
-    const todoElement = document.querySelectorAll(".todo");
-    for (const data of todoElement) {
-      if (data.getAttribute("iscompleted") === "true") {
-        data.classList.add("line-through");
-      }
-      if (data.getAttribute("iscompleted") === "false") {
-        data.classList.remove("line-through");
-      }
+    const todoElements = document.querySelectorAll(".todo");
+    for (const data of todoElements) {
+      data.getAttribute("iscompleted") === "true"
+        ? data.classList.add("line-through")
+        : data.classList.remove("line-through");
+
+      //2nd way
+      // const childrens = Array.from(todoElements.current.children);
+
+      // childrens.forEach((children) => {
+      //   children.getAttribute("iscompleted") === "true"
+      //     ? children.classList.add("line-through")
+      //     : children.classList.remove("line-through");
+      // });
     }
-  });
+  }, [todoList]);
 
   const handleButtonTick = useCallback((id) => {
     settodoList((prevState) =>
@@ -113,6 +118,7 @@ function App() {
         todoList={todoList}
         handleButtonTick={handleButtonTick}
         handleButtonCross={handleButtonCross}
+        // todoElements={todoElements}
       />
     </div>
   );
